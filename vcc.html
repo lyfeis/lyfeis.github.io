@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Veiled Chaos Orb Calculator</title>
+</head>
+<body>
+
+    <h1>Veiled Chaos Orb Calculator</h1>
+
+    <form id="calculatorForm">
+        <label for="totalWeightings">Total Weightings:</label>
+        <input type="number" id="totalWeightings" required>
+
+        <label for="weightingOfDesiredMod">Weighting of Desired Mod:</label>
+        <input type="number" id="weightingOfDesiredMod" required>
+
+        <button type="button" onclick="calculateProbability()">Calculate Probability</button>
+    </form>
+
+    <p id="result"></p>
+
+    <script>
+        function calculateProbability() {
+            // Get user inputs
+            var totalWeightings = parseFloat(document.getElementById("totalWeightings").value);
+            var weightingOfDesiredMod = parseFloat(document.getElementById("weightingOfDesiredMod").value);
+
+            // Check if inputs are valid numbers
+            if (isNaN(totalWeightings) || isNaN(weightingOfDesiredMod)) {
+                alert("Please enter valid numbers.");
+                return;
+            }
+
+            // Calculate probability
+            var probability = (weightingOfDesiredMod / totalWeightings) * 100;
+
+            // Display the result
+            document.getElementById("result").innerHTML = "Probability: " + probability.toFixed(2) + "%";
+        }
+    </script>
+
+</body>
+</html>
