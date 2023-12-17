@@ -3,47 +3,91 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Probability Calculator</title>
+    <title>Roll Calculator</title>
+    <style>
+        /* Add your CSS styling here */
+        body {
+            font-family: Arial, sans-serif;
+        }
+    </style>
 </head>
 <body>
+    <h1>Roll Calculator</h1>
 
-    <h1>Probability Calculator</h1>
+    <label for="desiredOutcome">Select Desired Outcome:</label>
+    <select id="desiredOutcome">
+        <option value="HybridARLife">Hybrid AR/Life</option>
+        <option value="PhysDamageToFire">Physical Damage Converted to Fire Damage</option>
+        <option value="PhysDamageToCold">Physical Damage Converted to Cold Damage</option>
+        <option value="PhysDamageToLightning">Physical Damage Converted to Lightning Damage</option>
+        <option value="LevelSocketedAoE">+2 to Level of Socketed AoE Gems</option>
+        <option value="LevelSocketedProjectile">+2 to Level of Socketed Projectile Gems</option>
+        <option value="LevelSocketedMelee">+2 to Level of Socketed Melee Gems</option>
+        <option value="LifeMana">Life/Mana</option>
+        <option value="LifeRegenMana">LifeRegen/Mana</option>
+        <option value="PhysDRFocused">Phys DR while Focused</option>
+    </select>
 
-    <form id="calculatorForm">
-        <label for="TotalWeightings">Total Weightings:</label>
-        <input type="number" id="TotalWeightings" value="17000" required readonly>
+    <br>
 
-        <label for="weightingOfDesiredOutcome">Weighting of Desired Outcome:</label>
-        <input type="number" id="weightingOfDesiredOutcome" value="2000" required readonly>
+    <label for="blockOutcome">Select Blocked Outcome:</label>
+    <select id="blockOutcome">
+        <option value="HybridARLife">Hybrid AR/Life</option>
+        <option value="PhysDamageToFire">Physical Damage Converted to Fire Damage</option>
+        <option value="PhysDamageToCold">Physical Damage Converted to Cold Damage</option>
+        <option value="PhysDamageToLightning">Physical Damage Converted to Lightning Damage</option>
+        <option value="LevelSocketedAoE">+2 to Level of Socketed AoE Gems</option>
+        <option value="LevelSocketedProjectile">+2 to Level of Socketed Projectile Gems</option>
+        <option value="LevelSocketedMelee">+2 to Level of Socketed Melee Gems</option>
+        <option value="LifeMana">Life/Mana</option>
+        <option value="LifeRegenMana">LifeRegen/Mana</option>
+        <option value="PhysDRFocused">Phys DR while Focused</option>
+        <option value="NoBlockedMod">No blocked mod</option>
+    </select>
 
-        <button type="button" onclick="calculateProbability()">Calculate Probability</button>
-    </form>
+    <br>
 
-    <p id="result"></p>
+    <button onclick="roll()">Roll</button>
+
+    <p id="rollResult"></p>
 
     <script>
-        function calculateProbability() {
-            // Get user inputs
-            var TotalWeightings = parseFloat(document.getElementById("TotalWeightings").value);
-            var weightingOfDesiredOutcome = parseFloat(document.getElementById("weightingOfDesiredOutcome").value);
+        function roll() {
+            // Get selected values
+            var desiredOutcome = document.getElementById('desiredOutcome').value;
+            var blockOutcome = document.getElementById('blockOutcome').value;
 
-            // Initialize probability and remaining weightings
-            var probability = 0;
-            var remainingWeightings = TotalWeightings;
+            // Array of possible outcomes
+            var outcomes = [
+                { name: "Hybrid AR/Life", weight: 1000 },
+                { name: "Physical Damage Converted to Fire Damage", weight: 2000 },
+                { name: "Physical Damage Converted to Cold Damage", weight: 2000 },
+                { name: "Physical Damage Converted to Lightning Damage", weight: 2000 },
+                { name: "+2 to Level of Socketed AoE Gems", weight: 1500 },
+                { name: "+2 to Level of Socketed Projectile Gems", weight: 1500 },
+                { name: "+2 to Level of Socketed Melee Gems", weight: 1000 },
+                { name: "Life/Mana", weight: 1000 },
+                { name: "LifeRegen/Mana", weight: 1000 },
+                { name: "Phys DR while Focused", weight: 1500 },
+                { name: "No blocked mod", weight: 0 }
+            ];
 
-            // Calculate probability for each chance
+            // Remove blocked outcome from possibilities
+            outcomes = outcomes.filter(item => item.name !== blockOutcome);
+
+            // Shuffle the array
+            outcomes.sort(() => Math.random() - 0.5);
+
+            // Select three outcomes (no duplicates)
+            var rollResults = [];
             for (var i = 0; i < 3; i++) {
-                probability += (weightingOfDesiredOutcome / remainingWeightings);
-                remainingWeightings -= weightingOfDesiredOutcome; // Reduce total weightings
+                rollResults.push(outcomes.pop());
             }
 
-            // Convert probability to percentage
-            probability *= 100;
-
             // Display the result
-            document.getElementById("result").innerHTML = "Probability: " + probability.toFixed(2) + "%";
+            document.getElementById('rollResult').innerHTML = 'Roll Results: ' +
+                rollResults.map(result => result.name + ' (Weight: ' + result.weight + ')').join(', ');
         }
     </script>
-
 </body>
 </html>
