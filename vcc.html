@@ -50,6 +50,7 @@
     <button onclick="roll()">Roll</button>
 
     <p id="rollResult"></p>
+    <p id="averageRolls"></p>
 
     <script>
         function roll() {
@@ -75,6 +76,10 @@
             // Remove blocked outcome from possibilities
             outcomes = outcomes.filter(item => item.name !== blockOutcome);
 
+            // Calculate average rolls
+            var totalWeight = outcomes.reduce((sum, outcome) => sum + outcome.weight, 0);
+            var averageRolls = outcomes.map(outcome => totalWeight / outcome.weight).reduce((sum, rolls) => sum + rolls, 0) / outcomes.length;
+
             // Shuffle the array
             outcomes.sort(() => Math.random() - 0.5);
 
@@ -87,6 +92,9 @@
             // Display the result
             document.getElementById('rollResult').innerHTML = 'Roll Results: ' +
                 rollResults.map(result => result.name + ' (Weight: ' + result.weight + ')').join(', ');
+
+            // Display the average rolls
+            document.getElementById('averageRolls').innerHTML = 'Average Rolls: ' + averageRolls.toFixed(2);
         }
     </script>
 </body>
