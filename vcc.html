@@ -13,8 +13,8 @@
         <label for="initialTotalWeightings">Initial Total Weightings:</label>
         <input type="number" id="initialTotalWeightings" required>
 
-        <label for="weightingOfDesiredOutcome">Weighting of Desired Outcome:</label>
-        <input type="number" id="weightingOfDesiredOutcome" required>
+        <label for="weightingOfUndesiredOutcome">Weighting of Undesired Outcome:</label>
+        <input type="number" id="weightingOfUndesiredOutcome" required>
 
         <button type="button" onclick="calculateProbability()">Calculate Probability</button>
     </form>
@@ -25,10 +25,10 @@
         function calculateProbability() {
             // Get user inputs
             var initialTotalWeightings = parseFloat(document.getElementById("initialTotalWeightings").value);
-            var weightingOfDesiredOutcome = parseFloat(document.getElementById("weightingOfDesiredOutcome").value);
+            var weightingOfUndesiredOutcome = parseFloat(document.getElementById("weightingOfUndesiredOutcome").value);
 
             // Check if inputs are valid numbers
-            if (isNaN(initialTotalWeightings) || isNaN(weightingOfDesiredOutcome)) {
+            if (isNaN(initialTotalWeightings) || isNaN(weightingOfUndesiredOutcome)) {
                 alert("Please enter valid numbers.");
                 return;
             }
@@ -39,8 +39,8 @@
 
             // Calculate probability for each chance
             for (var i = 0; i < 3; i++) {
-                probability += (weightingOfDesiredOutcome / remainingWeightings) * 100;
-                remainingWeightings -= weightingOfDesiredOutcome; // Reduce total weightings
+                probability += ((remainingWeightings - weightingOfUndesiredOutcome) / remainingWeightings) * 100;
+                remainingWeightings -= weightingOfUndesiredOutcome; // Reduce total weightings
             }
 
             // Display the result
