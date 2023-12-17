@@ -3,18 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Veiled Chaos Orb Calculator</title>
+    <title>Probability Calculator</title>
 </head>
 <body>
 
-    <h1>Veiled Chaos Orb Calculator</h1>
+    <h1>Probability Calculator</h1>
 
     <form id="calculatorForm">
-        <label for="totalWeightings">Total Weightings:</label>
-        <input type="number" id="totalWeightings" required>
+        <label for="initialTotalWeightings">Initial Total Weightings:</label>
+        <input type="number" id="initialTotalWeightings" required>
 
-        <label for="weightingOfDesiredMod">Weighting of Desired Mod:</label>
-        <input type="number" id="weightingOfDesiredMod" required>
+        <label for="weightingOfDesiredOutcome">Weighting of Desired Outcome:</label>
+        <input type="number" id="weightingOfDesiredOutcome" required>
 
         <button type="button" onclick="calculateProbability()">Calculate Probability</button>
     </form>
@@ -24,17 +24,24 @@
     <script>
         function calculateProbability() {
             // Get user inputs
-            var totalWeightings = parseFloat(document.getElementById("totalWeightings").value);
-            var weightingOfDesiredMod = parseFloat(document.getElementById("weightingOfDesiredMod").value);
+            var initialTotalWeightings = parseFloat(document.getElementById("initialTotalWeightings").value);
+            var weightingOfDesiredOutcome = parseFloat(document.getElementById("weightingOfDesiredOutcome").value);
 
             // Check if inputs are valid numbers
-            if (isNaN(totalWeightings) || isNaN(weightingOfDesiredMod)) {
+            if (isNaN(initialTotalWeightings) || isNaN(weightingOfDesiredOutcome)) {
                 alert("Please enter valid numbers.");
                 return;
             }
 
-            // Calculate probability
-            var probability = (weightingOfDesiredMod / totalWeightings) * 100;
+            // Initialize probability and remaining weightings
+            var probability = 0;
+            var remainingWeightings = initialTotalWeightings;
+
+            // Calculate probability for each chance
+            for (var i = 0; i < 3; i++) {
+                probability += (weightingOfDesiredOutcome / remainingWeightings) * 100;
+                remainingWeightings -= weightingOfDesiredOutcome; // Reduce total weightings
+            }
 
             // Display the result
             document.getElementById("result").innerHTML = "Probability: " + probability.toFixed(2) + "%";
